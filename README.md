@@ -16,6 +16,8 @@
 - SQLite (разработка)
 
 ## Структура проекта
+```
+
 DigitalBazaar/
 ├── catalog/                                  # Основное приложение
 │ ├── migrations/                             # Миграции БД
@@ -37,6 +39,7 @@ DigitalBazaar/
 ├── db.sqlite3                                # База данных
 ├── requirements.txt                          # Зависимости
 └── .gitignore                                # Игнорируемые файлы
+```
 
 text
 
@@ -45,7 +48,7 @@ text
 1. **Клонировать репозиторий:**
 ```bash
 git clone <https://github.com/mihazizganov-debug/DigitalBazaar>
-cd skystore
+DigitalBazaar
 Создать и активировать виртуальное окружение:
 
 bash
