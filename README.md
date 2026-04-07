@@ -47,10 +47,10 @@ text
 
 1. **Клонировать репозиторий:**
 ```bash
-git clone <https://github.com/mihazizganov-debug/DigitalBazaar>
+git clone https://github.com/mihazizganov-debug/DigitalBazaar
 DigitalBazaar
-Создать и активировать виртуальное окружение:
 
+Создать и активировать виртуальное окружение:
 bash
 # Windows
 python -m venv venv
@@ -58,17 +58,18 @@ venv\Scripts\activate
 
 
 Установить зависимости:
-
 bash
 pip install -r requirements.txt
-Применить миграции:
 
+Применить миграции:
 bash
 python manage.py migrate
-Запустить сервер:
 
+Запустить сервер:
 bash
 python manage.py runserver
+
+
 Открыть в браузере:
 
 Главная страница: http://127.0.0.1:8000/
