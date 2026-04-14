@@ -30,11 +30,14 @@ DigitalBazaar/
 │ ├── fixtures/                               # Фикстуры для БД
 │ │ ├── categories.json                       # Данные категорий
 │ │ └── products.json                         # Данные продуктов
+│ ├── management/                             # Кастомные команды
+│ │ └── commands/
+│ │  └── load_data.py                         # Команда загрузки данных
 │ ├── migrations/                             # Миграции БД
 │ ├── templates/                              # Шаблоны
 │ │ └── catalog/
-│ │ ├── home.html                             # Главная страница
-│ │ └── contacts.html                         # Контакты
+│ │  ├── home.html                            # Главная страница
+│ │  └── contacts.html                        # Контакты
 │ ├── urls.py                                 # Маршруты приложения
 │ ├── views.py                                # Контроллеры
 │ └── models.py                               # Модели БД
