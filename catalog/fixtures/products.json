@@ -1,0 +1,41 @@
+[
+{
+    "model": "catalog.product",
+    "pk": 1,
+    "fields": {
+        "name": "Удобный сервис рассылок",
+        "description": "Мощный инструмент для email-маркетинга",
+        "image": "",
+        "category": 1,
+        "price": "140.00",
+        "created_at": "2026-04-14T07:13:29.499Z",
+        "updated_at": "2026-04-14T07:13:29.499Z"
+    }
+},
+{
+    "model": "catalog.product",
+    "pk": 2,
+    "fields": {
+        "name": "Telegram бот для уведомлений",
+        "description": "Бот отправляет уведомления из вашего приложения",
+        "image": "",
+        "category": 2,
+        "price": "99.00",
+        "created_at": "2026-04-14T07:13:35.722Z",
+        "updated_at": "2026-04-14T07:13:35.722Z"
+    }
+},
+{
+    "model": "catalog.product",
+    "pk": 3,
+    "fields": {
+        "name": "Генератор паролей",
+        "description": "Утилита для создания надежных паролей",
+        "image": "",
+        "category": 3,
+        "price": "49.00",
+        "created_at": "2026-04-14T07:13:41.888Z",
+        "updated_at": "2026-04-14T07:13:41.888Z"
+    }
+}
+]
