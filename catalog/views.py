@@ -1,20 +1,31 @@
-from django.shortcuts import render, get_object_or_404
 from django.contrib import messages
+from django.shortcuts import render
+from django.views.generic import DetailView, ListView, TemplateView
+
 from .models import Product
 
-def home(request):
-    products = Product.objects.all()  # 👈 получаем все товары
-    return render(request, 'catalog/home.html', {'products': products})
 
-def contacts(request):
-    if request.method == 'POST':
-        name = request.POST.get('name')
-        phone = request.POST.get('phone')
-        message = request.POST.get('message')
-        messages.success(request, f'Спасибо, {name}! Ваше сообщение отправлено.')
-        return render(request, 'catalog/contacts.html')
-    return render(request, 'catalog/contacts.html')
+class HomeListView(ListView):
+    model = Product
+    template_name = "catalog/home.html"
+    context_object_name = "products"
 
-def product_detail(request, pk):
-    product = get_object_or_404(Product, pk=pk)
-    return render(request, 'catalog/product_detail.html', {'product': product})
+
+class ProductDetailView(DetailView):
+    model = Product
+    template_name = "catalog/product_detail.html"
+    context_object_name = "product"
+
+
+class ContactsView(TemplateView):
+    template_name = "catalog/contacts.html"
+
+    def post(self, request, *args, **kwargs):
+        name = request.POST.get('name', 'Гость')
+        phone = request.POST.get('phone', 'не указан')
+        message = request.POST.get('message', 'пустое сообщение')
+        messages.success(
+            request,
+            f'Спасибо, {name}! Сообщение "{message}" отправлено. Мы позвоним по номеру {phone}.'
+        )
+        return render(request, self.template_name)
