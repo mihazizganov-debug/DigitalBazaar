@@ -59,21 +59,15 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "price",
-                    models.DecimalField(
-                        decimal_places=2, max_digits=10, verbose_name="цена за покупку"
-                    ),
+                    models.DecimalField(decimal_places=2, max_digits=10, verbose_name="цена за покупку"),
                 ),
                 (
                     "created_at",
-                    models.DateTimeField(
-                        auto_now_add=True, verbose_name="дата создания"
-                    ),
+                    models.DateTimeField(auto_now_add=True, verbose_name="дата создания"),
                 ),
                 (
                     "updated_at",
-                    models.DateTimeField(
-                        auto_now=True, verbose_name="дата последнего изменения"
-                    ),
+                    models.DateTimeField(auto_now=True, verbose_name="дата последнего изменения"),
                 ),
                 (
                     "category",
