@@ -80,15 +80,15 @@ DigitalBazaar/
 │ └── js/
 │
 ├── users/                                    # Приложение пользователей (новое)
-│ ├── migrations/
-│ ├── templates/users/
-│ │  ├── register.html
-│ │  └── login.html
-│ ├── admin.py
-│ ├── forms.py
-│ ├── models.py
-│ ├── urls.py
-│ └── views.py
+│ ├── migrations/                             # Миграции пользователей
+│ ├── templates/users/                        # Шаблоны пользователей
+│ │  ├── register.html                        # Регистрация
+│ │  └── login.html                           # Вход
+│ ├── admin.py                                # Регистрация модели User
+│ ├── forms.py                                # Формы регистрации и входа
+│ ├── models.py                               # Кастомная модель User
+│ ├── urls.py                                 # Маршруты пользователей
+│ └── views.py                                # Регистрация, вход, выход
 │
 ├── screenshots/                              # Скриншоты для проверки
 ├── venv/                                     # Виртуальное окружение
