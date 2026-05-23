@@ -5,9 +5,43 @@
     <h1>{% if object %}Редактировать товар{% else %}Добавить товар{% endif %}</h1>
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn btn-success">Сохранить</button>
-        <a href="{% url 'catalog:home' %}" class="btn btn-secondary">Отмена</a>
+
+        <div class="mb-3">
+            <label for="id_name" class="form-label">Наименование</label>
+            {{ form.name }}
+        </div>
+
+        <div class="mb-3">
+            <label for="id_description" class="form-label">Описание</label>
+            {{ form.description }}
+        </div>
+
+        <div class="mb-3">
+            <label for="id_image" class="form-label">Изображение</label>
+            {{ form.image }}
+        </div>
+
+        <div class="mb-3">
+            <label for="id_category" class="form-label">Категория</label>
+            {{ form.category }}
+        </div>
+
+        <div class="mb-3">
+            <label for="id_price" class="form-label">Цена</label>
+            {{ form.price }}
+        </div>
+
+        {% if perms.catalog.can_unpublish_product %}
+            <div class="form-check mb-3">
+                <input type="checkbox" name="is_published" id="id_is_published" class="form-check-input" {% if form.is_published.value %}checked{% endif %}>
+                <label class="form-check-label" for="id_is_published">Опубликовано</label>
+            </div>
+        {% else %}
+            <input type="hidden" name="is_published" value="false">
+        {% endif %}
+
+        <button type="submit" class="btn btn-neon">💾 Сохранить</button>
+        <a href="{% url 'catalog:home' %}" class="btn btn-neon">❌ Отмена</a>
     </form>
 </div>
 {% endblock %}
