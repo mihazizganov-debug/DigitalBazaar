@@ -6,6 +6,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>DigitalBazaar</title>
     <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <style>
+        body {
+            background: url('/static/images/background.jpg') no-repeat center center fixed;
+            background-size: cover;
+        }
+        main {
+            background-color: white;
+            border-radius: 10px;
+            margin: 20px auto;
+            padding: 20px;
+            max-width: 1200px;
+        }
+        footer {
+            background-color: white;
+            border-radius: 10px;
+            margin: 20px auto;
+            padding: 20px;
+            max-width: 1200px;
+        }
+
+    </style>
 </head>
 <body>
     {% include 'catalog/includes/navbar.html' %}
