@@ -18,12 +18,11 @@
                     {% if product.image %}
                         <img src="{{ product.image.url }}" class="img-fluid" style="height: 150px; object-fit: cover;" alt="{{ product.name }}">
                     {% else %}
-                        <img src="https://via.placeholder.com/200x150?text=No+Image" class="img-fluid" alt="Нет изображения">
+                        <div class="text-center" style="font-size: 60px;">📷</div>
                     {% endif %}
                     <p class="mt-3">{{ product.description|truncatechars:100 }}</p>
                     <h4 class="card-title pricing-card-title">$ {{ product.price }}</h4>
-                    <a href="{% url 'catalog:product_detail' product.id %}" class="btn btn-lg btn-block btn-outline-primary">Подробнее</a>
-                </div>
+<a href="{% url 'catalog:product_detail' product.id %}" class="btn btn-lg btn-block btn-outline-primary">Подробнее</a>                </div>
             </div>
         </div>
         {% endfor %}
