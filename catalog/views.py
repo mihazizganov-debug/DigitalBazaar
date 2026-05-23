@@ -1,5 +1,5 @@
 from django.contrib import messages
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
@@ -13,6 +13,11 @@ class HomeListView(ListView):
     model = Product
     template_name = "catalog/home.html"
     context_object_name = "products"
+
+    def get_queryset(self):
+        if self.request.user.has_perm('catalog.can_unpublish_product'):
+            return Product.objects.all()
+        return Product.objects.filter(is_published=True)
 
 
 class ProductDetailView(DetailView):
@@ -39,15 +44,29 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
     template_name = "catalog/product_form.html"
     success_url = reverse_lazy("catalog:home")
 
+    def form_valid(self, form):
+        form.instance.owner = self.request.user
+        return super().form_valid(form)
 
-class ProductUpdateView(LoginRequiredMixin, UpdateView):
+
+class ProductUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Product
     form_class = ProductForm
     template_name = "catalog/product_form.html"
     success_url = reverse_lazy("catalog:home")
 
+    def test_func(self):
+        product = self.get_object()
+        user = self.request.user
+        return user == product.owner or user.has_perm('catalog.can_unpublish_product')
 
-class ProductDeleteView(LoginRequiredMixin, DeleteView):
+
+class ProductDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Product
     template_name = "catalog/product_confirm_delete.html"
     success_url = reverse_lazy("catalog:home")
+
+    def test_func(self):
+        product = self.get_object()
+        user = self.request.user
+        return user == product.owner or user.has_perm('catalog.can_unpublish_product')
