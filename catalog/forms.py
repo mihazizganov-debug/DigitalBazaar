@@ -9,7 +9,10 @@ FORBIDDEN_WORDS = ["казино", "криптовалюта", "крипта", "
 class ProductForm(forms.ModelForm):
     class Meta:
         model = Product
-        fields = ["name", "description", "image", "category", "price"]
+        fields = ["name", "description", "image", "category", "price", "is_published"]
+        widgets = {
+            "is_published": forms.CheckboxInput(attrs={"class": "form-check-input"}),
+        }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
