@@ -5,7 +5,9 @@
     <h1>Категории товаров</h1>
     <ul class="list-group">
         {% for category in categories %}
-            <li class="list-group-item">{{ category.name }}</li>
+            <li class="list-group-item">
+                <a href="{% url 'catalog:category_products' category.id %}">{{ category.name }}</a>
+            </li>
         {% endfor %}
     </ul>
 </div>
