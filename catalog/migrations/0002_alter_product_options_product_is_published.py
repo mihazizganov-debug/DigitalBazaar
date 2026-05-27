@@ -13,9 +13,7 @@ class Migration(migrations.Migration):
         migrations.AlterModelOptions(
             name="product",
             options={
-                "permissions": [
-                    ("can_unpublish_product", "Может отменять публикацию продукта")
-                ],
+                "permissions": [("can_unpublish_product", "Может отменять публикацию продукта")],
                 "verbose_name": "продукт",
                 "verbose_name_plural": "продукты",
             },
