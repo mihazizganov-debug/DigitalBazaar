@@ -1,30 +1,31 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.core.cache import cache
 from django.shortcuts import render
 from django.urls import reverse_lazy
-from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
-                                  TemplateView, UpdateView)
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
-from django.core.cache import cache
+from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
+                                  TemplateView, UpdateView)
 
 from .forms import ProductForm
-from .models import Product, Category
+from .models import Category, Product
+from .services import get_products_by_category
 
 
-@method_decorator(cache_page(60 * 15), name='dispatch')
+@method_decorator(cache_page(60 * 15), name="dispatch")
 class HomeListView(ListView):
     model = Product
     template_name = "catalog/home.html"
     context_object_name = "products"
 
     def get_queryset(self):
-        if self.request.user.has_perm('catalog.can_unpublish_product'):
+        if self.request.user.has_perm("catalog.can_unpublish_product"):
             return Product.objects.all()
         return Product.objects.filter(is_published=True)
 
 
-@method_decorator(cache_page(60 * 15), name='dispatch')
+@method_decorator(cache_page(60 * 15), name="dispatch")
 class ProductDetailView(DetailView):
     model = Product
     template_name = "catalog/product_detail.html"
@@ -63,7 +64,7 @@ class ProductUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     def test_func(self):
         product = self.get_object()
         user = self.request.user
-        return user == product.owner or user.has_perm('catalog.can_unpublish_product')
+        return user == product.owner or user.has_perm("catalog.can_unpublish_product")
 
 
 class ProductDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
@@ -74,7 +75,7 @@ class ProductDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     def test_func(self):
         product = self.get_object()
         user = self.request.user
-        return user == product.owner or user.has_perm('catalog.delete_product')
+        return user == product.owner or user.has_perm("catalog.delete_product")
 
 
 # Низкоуровневое кеширование для категорий
@@ -84,8 +85,19 @@ class CategoriesListView(ListView):
     context_object_name = "categories"
 
     def get_queryset(self):
-        queryset = cache.get('all_categories')
+        queryset = cache.get("all_categories")
         if not queryset:
             queryset = super().get_queryset()
-            cache.set('all_categories', queryset, 60 * 15)
+            cache.set("all_categories", queryset, 60 * 15)
         return queryset
+
+
+class CategoryProductsView(DetailView):
+    model = Category
+    template_name = "catalog/category_products.html"
+    context_object_name = "category"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["products"] = get_products_by_category(self.object.id)
+        return context
