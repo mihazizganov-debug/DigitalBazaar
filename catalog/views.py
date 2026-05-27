@@ -4,11 +4,15 @@ from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
                                   TemplateView, UpdateView)
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
+from django.core.cache import cache
 
 from .forms import ProductForm
-from .models import Product
+from .models import Product, Category
 
 
+@method_decorator(cache_page(60 * 15), name='dispatch')
 class HomeListView(ListView):
     model = Product
     template_name = "catalog/home.html"
@@ -20,6 +24,7 @@ class HomeListView(ListView):
         return Product.objects.filter(is_published=True)
 
 
+@method_decorator(cache_page(60 * 15), name='dispatch')
 class ProductDetailView(DetailView):
     model = Product
     template_name = "catalog/product_detail.html"
@@ -69,4 +74,18 @@ class ProductDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     def test_func(self):
         product = self.get_object()
         user = self.request.user
-        return user == product.owner or user.has_perm('catalog.can_unpublish_product')
+        return user == product.owner or user.has_perm('catalog.delete_product')
+
+
+# Низкоуровневое кеширование для категорий
+class CategoriesListView(ListView):
+    model = Category
+    template_name = "catalog/categories_list.html"
+    context_object_name = "categories"
+
+    def get_queryset(self):
+        queryset = cache.get('all_categories')
+        if not queryset:
+            queryset = super().get_queryset()
+            cache.set('all_categories', queryset, 60 * 15)
+        return queryset
